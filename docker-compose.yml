@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  cloud189-webdav:
+    build: .
+    container_name: cloud189-webdav
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/.config/cloud189
+    environment:
+      - TZ=Asia/Shanghai
+      - CLOUD189_USERNAME=${CLOUD189_USERNAME}
+      - CLOUD189_PASSWORD=${CLOUD189_PASSWORD}
+    user: "1000:1000"
+    command: ["./cloud189", "webdav", "0.0.0.0:8080"]

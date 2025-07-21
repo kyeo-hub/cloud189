@@ -106,7 +106,19 @@ func OpenConfig(path string) (*Config, error) {
 		return nil, err
 	}
 	config.path = path
-	return &config, nil
+
+// 从环境变量读取用户名和密码
+username := os.Getenv("CLOUD189_USERNAME")
+password := os.Getenv("CLOUD189_PASSWORD")
+if username != "" && password != "" {
+    if config.User == nil {
+        config.User = &User{}
+    }
+    config.User.Name = username
+    config.User.Password = password
+}
+
+return &config, nil
 }
 func (config *Config) Save() error {
 	if config.path == "" {

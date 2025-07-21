@@ -1,5 +1,55 @@
 # cloud189
 
+## Docker部署WebDAV服务
+
+### 前提条件
+- Docker和Docker Compose已安装
+
+### 构建和启动
+```bash
+# 构建并启动服务
+docker-compose up --build -d
+
+# 查看服务状态
+docker-compose ps
+
+# 查看日志
+docker-compose logs -f
+```
+
+### 配置说明
+1. **推荐：使用环境变量设置凭据**
+   创建`.env`文件：
+   ```env
+   CLOUD189_USERNAME=your_username
+   CLOUD189_PASSWORD=your_password
+   ```
+
+2. **可选：使用配置文件**
+   将配置文件放在项目根目录的`config`文件夹下，文件名为`config.json`
+   ```json
+   {
+     "sson": "your_sson_cookie",
+     "auth": "your_auth_cookie"
+   }
+   ```
+
+3. 首次启动会自动创建必要的目录结构
+4. 数据会持久化存储在`data`目录中
+
+### GitHub Actions自动构建
+1. 在GitHub仓库设置以下Secrets：
+   - `DOCKERHUB_USERNAME`: Docker Hub用户名
+   - `DOCKERHUB_TOKEN`: Docker Hub访问令牌
+2. 推送标签(tag)后会自动触发构建并推送到Docker Hub和GHCR
+
+### 默认参数
+- WebDAV服务端口: 8080
+- 配置文件路径: ./config/config.json
+- 数据存储路径: ./data
+
+# cloud189
+
 封装天翼云盘接口实现命令行访问, 个人开发不足之处还请包涵, 本人将持续优化使用体验
 
 ## 命令列表
