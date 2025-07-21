@@ -27,7 +27,7 @@ jobs:
           version: latest
           args: release --snapshot --clean
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CLOUD_GITHUB_TOKEN }}
 
   build-and-push:
     needs: goreleaser
@@ -50,7 +50,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.CLOUD_GITHUB_TOKEN }}
 
       - name: Extract metadata
         id: meta
