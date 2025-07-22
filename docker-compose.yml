@@ -1,0 +1,18 @@
+services:
+  cloud189:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cloud189-webdav
+    environment:
+      - USERNAME=${CLOUD189_USERNAME}  # 天翼云盘用户名
+      - PASSWORD=${CLOUD189_PASSWORD}  # 天翼云盘密码
+      - PORT=${WEBDAV_PORT:-8080}      # WebDAV服务端口，默认8080
+    ports:
+      - "${HOST_PORT:-8080}:${WEBDAV_PORT:-8080}"  # 主机端口:容器端口
+    volumes:
+      - cloud189-config:/root/.config/cloud189  # 持久化配置
+    restart: unless-stopped
+
+volumes:
+  cloud189-config:  # 用于存储配置文件的卷
