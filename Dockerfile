@@ -34,24 +34,9 @@ RUN mkdir -p /root/.config/cloud189
 # 从构建阶段复制二进制文件
 COPY --from=builder /app/cloud189 /usr/local/bin/
 
-# 添加启动脚本
-RUN echo '#!/bin/sh\n\
-if [ -n "$CLOUD189_USERNAME" ] && [ -n "$CLOUD189_PASSWORD" ]; then\n\
-  echo "正在使用环境变量中的用户名和密码登录..."\n\
-  cloud189 login -i "$CLOUD189_USERNAME" "$CLOUD189_PASSWORD"\n\
-  if [ $? -ne 0 ]; then\n\
-    echo "登录失败，请检查用户名和密码"\n\
-    exit 1\n\
-  fi\n\
-else\n\
-  echo "未设置用户名或密码环境变量，请使用交互式登录"\n\
-  cloud189 login\n\
-fi\n\
-\n\
-# 启动webdav服务\n\
-echo "启动WebDAV服务在端口 ${PORT:-8080}..."\n\
-exec cloud189 webdav :${PORT:-8080}\n\
-' > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
+# 复制启动脚本
+COPY start.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/start.sh
 
 # 设置工作目录
 WORKDIR /root
