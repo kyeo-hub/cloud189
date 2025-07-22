@@ -36,9 +36,9 @@ COPY --from=builder /app/cloud189 /usr/local/bin/
 
 # 添加启动脚本
 RUN echo '#!/bin/sh\n\
-if [ -n "$USERNAME" ] && [ -n "$PASSWORD" ]; then\n\
+if [ -n "$CLOUD189_USERNAME" ] && [ -n "$CLOUD189_PASSWORD" ]; then\n\
   echo "正在使用环境变量中的用户名和密码登录..."\n\
-  cloud189 login -i "$USERNAME" "$PASSWORD"\n\
+  cloud189 login -i "$CLOUD189_USERNAME" "$CLOUD189_PASSWORD"\n\
   if [ $? -ne 0 ]; then\n\
     echo "登录失败，请检查用户名和密码"\n\
     exit 1\n\
